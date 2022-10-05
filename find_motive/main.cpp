@@ -39,9 +39,8 @@ int main(int argc, char* argv[]) {
 
     std::ifstream myfile;
     std::string contenu;  // déclaration d'une chaîne qui contiendra la ligne lue
-    std::string chemin = "../";
     
-	myfile.open(chemin+argv[1]);
+	myfile.open(argv[1]);
     if (myfile.is_open()) {
         while (myfile >> contenu) {  // on met dans "contenu" la ligne
             hasMotive(contenu, motif, count);

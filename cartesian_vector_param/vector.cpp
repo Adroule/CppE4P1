@@ -15,8 +15,8 @@ Vector::Vector(){
 }
 
 
-Vector& Vector::operator+(const Vector& v1) {
-	Vector v3;
+Vector Vector::operator+(const Vector& v1) {
+	Vector v3 = Vector{};
 	for (int i = 0; i < NDIM; i++) {
 		v3.coordinates[i] = v1.coordinates[i] + this->coordinates[i];
 	}
@@ -92,6 +92,5 @@ std::ostream& operator << (std::ostream& os, const Vector& v){
 		os << v[i] << ", ";
 	}
 	os << v[NDIM-1] << "}";
+	return os;
 }
-	
-

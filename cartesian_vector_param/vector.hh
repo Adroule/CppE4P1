@@ -20,7 +20,7 @@ public:
     // possibly more
 
 // Public Member functions here
-    Vector& operator+(const Vector& v1);
+    Vector operator+(const Vector& v1);
     Vector& operator+=(const Vector& rhs);
     Vector& operator+=(const int& n);
     Vector& operator-=(const Vector& rhs);
