@@ -1,34 +1,42 @@
 #include "vector.hh"
 
 
-
-Vector::Vector(std::initializer_list<int> pCoordinates){
-	for(int i=0; i<sizeof(pCoordinates)/sizeof(int); i++){
-		this->coordinates[i]=std::data(pCoordinates)[i];
+Vector::Vector(std::initializer_list<int> pCoordinates) : coordinates{ std::make_unique<int[]>(pCoordinates.size()) }, taille{ pCoordinates.size() } {
+	for (int i = 0; i < pCoordinates.size(); i++) {
+		this->coordinates[i] = std::data(pCoordinates)[i];
 	}
 }
 
-Vector::Vector(size_t N){
-	for(int i=0; i<N; i++){
-		this->coordinates[i]=0;
+Vector::Vector(const size_t N) : coordinates{ std::make_unique<int[]>(N) }, taille{ N } {
+	for (int i = 0; i < N; i++) {
+		this->coordinates[i] = 0;
 	}
 }
 
-Vector::Vector(const Vector& v){
-	for(int i=0; i<v.getTaille(); i++){
-		this->coordinates[i]=v[i];
+Vector::Vector(const Vector& v) {
+	this->taille = v.size();
+	this->coordinates = std::make_unique<int[]>(this->taille);
+	for (int i = 0; i < v.size(); i++) {
+		this->coordinates[i] = v[i];
 	}
 }
 
-Vector& Vector::operator=(const Vector& v1){
+size_t Vector::size() const {
+	return this->taille;
+}
+
+Vector& Vector::operator=(const Vector& v1) {
+
 	for (int i = 0; i < this->taille; i++) {
 		this->coordinates[i] = v1.coordinates[i];
 	}
 	return *this;
 }
 
-Vector Vector::operator+(const Vector& v1) const{
-	Vector v3 = Vector{};
+Vector Vector::operator+(const Vector& v1) const {
+	if (v1.size() != this->size())
+		throw std::runtime_error("Incompatible size");
+	Vector v3 = Vector(v1.taille);
 	for (int i = 0; i < this->taille; i++) {
 		v3.coordinates[i] = v1.coordinates[i] + this->coordinates[i];
 	}
@@ -36,21 +44,23 @@ Vector Vector::operator+(const Vector& v1) const{
 
 }
 
-Vector Vector::operator+(value v) const{
-	Vector v3 = Vector{};
+Vector Vector::operator+(const value v) const {
+	Vector v3 = Vector(this->taille);
 	for (int i = 0; i < this->taille; i++) {
 		v3.coordinates[i] = v + this->coordinates[i];
 	}
 	return v3;
 }
 
-Vector& Vector::operator+=(const Vector& rhs){
+Vector& Vector::operator+=(const Vector& rhs) {
+	if (rhs.size() != this->size())
+		throw std::runtime_error("Incompatible size");
 
-	for(int i=0; i<this->taille; i++){
-		this->coordinates[i]+=rhs.coordinates[i];
+	for (int i = 0; i < this->taille; i++) {
+		this->coordinates[i] += rhs.coordinates[i];
 	}
 	return *this;
-	
+
 }
 
 Vector& Vector::operator+=(value n) {
@@ -62,13 +72,31 @@ Vector& Vector::operator+=(value n) {
 
 }
 
-Vector& Vector::operator-=(const Vector& rhs){
+Vector Vector::operator-(const value v) const {
+	Vector v3 = Vector(this->taille);
+	for (int i = 0; i < this->taille; i++) {
+		v3.coordinates[i] = v - this->coordinates[i];
+	}
+	return v3;
+}
 
-	for(int i=0; i<this->taille; i++){
-		this->coordinates[i]-=rhs.coordinates[i];
+Vector& Vector::operator-=(const Vector& rhs) {
+	if (rhs.size() != this->size())
+		throw std::runtime_error("Incompatible size");
+
+	for (int i = 0; i < this->taille; i++) {
+		this->coordinates[i] -= rhs.coordinates[i];
 	}
 	return *this;
-	
+
+}
+
+Vector& Vector::operator-=(value n) {
+	for (int i = 0; i < this->taille; i++) {
+		this->coordinates[i] -= n;
+	}
+	return *this;
+
 }
 
 Vector& Vector::operator*=(value n) {
@@ -80,25 +108,36 @@ Vector& Vector::operator*=(value n) {
 
 }
 
-Vector Vector::operator*(value n) const{
+Vector Vector::operator*(value n) const {
 
-	for(int i=0; i<this->taille; i++){
-		this->coordinates[i]*=n;
+	for (int i = 0; i < this->taille; i++) {
+		this->coordinates[i] *= n;
 	}
 	return *this;
-	
+
 }
 
-value Vector::operator*(const Vector& rhs) const{
-	int sum=0;
-	for(int i=0; i<this->taille; i++){
-		sum+=this->coordinates[i]*rhs.coordinates[i];
+value Vector::operator*(const Vector& rhs) const {
+	if (rhs.size() != this->size())
+		throw std::runtime_error("Incompatible size");
+	int sum = 0;
+	for (int i = 0; i < this->taille; i++) {
+		sum += this->coordinates[i] * rhs.coordinates[i];
 	}
 	return sum;
-	
+
 }
 
-value Vector::operator[](size_t n) const{
+Vector Vector::operator/(const value v) const {
+	Vector v3 = Vector(this->taille);
+	for (int i = 0; i < this->taille; i++) {
+		v3.coordinates[i] = this->coordinates[i]/v;
+	}
+	return v3;
+}
+
+
+value Vector::operator[](size_t n) const {
 	return this->coordinates[n];
 }
 
@@ -106,17 +145,15 @@ value& Vector::operator[](size_t n) {
 	return this->coordinates[n];
 }
 
-value Vector::getTaille() const{
-	return this->taille;
-}
 
-std::ostream& operator << (std::ostream& os, const Vector& v){
+
+std::ostream& operator << (std::ostream& os, const Vector& v) {
 	os << "{";
-	for(int i=0; i<v.getTaille(); i++){
+	for (int i = 0; i < v.size()-1; i++) {
 		os << v[i] << ", ";
 	}
-	os << v[v.getTaille()-1] << "}";
+	os << v[v.size() - 1] << "}";
 	return os;
 }
-	
+
 
