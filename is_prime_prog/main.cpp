@@ -34,6 +34,6 @@ int main(int argc, char* argv[]) {
 			std::cin.clear();
 			break;
 		}
-	} while ((std::cin.peek() != '\n'));
+	} while ((std::cin.peek() != '\n') and (std::cin.peek() != '\0'));
 
 }
