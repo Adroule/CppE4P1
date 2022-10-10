@@ -26,7 +26,8 @@ size_t Vector::size() const {
 }
 
 Vector& Vector::operator=(const Vector& v1) {
-
+	this->taille = v1.size();
+	this->coordinates = std::make_unique<int[]>(this->taille);
 	for (int i = 0; i < this->taille; i++) {
 		this->coordinates[i] = v1.coordinates[i];
 	}
