@@ -2,15 +2,15 @@
 
 
 
-Vector::Vector(std::initializer_list<int> pCoordinates){
-	for(int i=0; i<NDIM; i++){
-		this->coordinates[i]=std::data(pCoordinates)[i];
+Vector::Vector(std::initializer_list<value> pCoordinates) {
+	for (int i = 0; i < NDIM; i++) {
+		this->coordinates[i] = std::data(pCoordinates)[i];
 	}
 }
 
-Vector::Vector(){
-	for(int i=0; i<NDIM; i++){
-		this->coordinates[i]=0;
+Vector::Vector() {
+	for (int i = 0; i < NDIM; i++) {
+		this->coordinates[i] = value(0);
 	}
 }
 
@@ -24,16 +24,16 @@ Vector Vector::operator+(const Vector& v1) {
 
 }
 
-Vector& Vector::operator+=(const Vector& rhs){
+Vector& Vector::operator+=(const Vector& rhs) {
 
-	for(int i=0; i<NDIM; i++){
-		this->coordinates[i]+=rhs.coordinates[i];
+	for (int i = 0; i < NDIM; i++) {
+		this->coordinates[i] += rhs.coordinates[i];
 	}
 	return *this;
-	
+
 }
 
-Vector& Vector::operator+=(const int& n) {
+Vector& Vector::operator+=(const value& n) {
 
 	for (int i = 0; i < NDIM; i++) {
 		this->coordinates[i] += n;
@@ -42,16 +42,16 @@ Vector& Vector::operator+=(const int& n) {
 
 }
 
-Vector& Vector::operator-=(const Vector& rhs){
+Vector& Vector::operator-=(const Vector& rhs) {
 
-	for(int i=0; i<NDIM; i++){
-		this->coordinates[i]-=rhs.coordinates[i];
+	for (int i = 0; i < NDIM; i++) {
+		this->coordinates[i] -= rhs.coordinates[i];
 	}
 	return *this;
-	
+
 }
 
-Vector& Vector::operator*=(const int& n) {
+Vector& Vector::operator*=(const value& n) {
 
 	for (int i = 0; i < NDIM; i++) {
 		this->coordinates[i] *= n;
@@ -60,37 +60,37 @@ Vector& Vector::operator*=(const int& n) {
 
 }
 
-Vector& Vector::operator*(const int& n){
+Vector& Vector::operator*(const value& n) {
 
-	for(int i=0; i<NDIM; i++){
-		this->coordinates[i]*=n;
+	for (int i = 0; i < NDIM; i++) {
+		this->coordinates[i] *= n;
 	}
 	return *this;
-	
+
 }
 
-int Vector::operator*(const Vector& rhs){
-	int sum=0;
-	for(int i=0; i<NDIM; i++){
-		sum+=this->coordinates[i]*rhs.coordinates[i];
+value Vector::operator*(const Vector& rhs) {
+	value sum = 0;
+	for (int i = 0; i < NDIM; i++) {
+		sum += this->coordinates[i] * rhs.coordinates[i];
 	}
 	return sum;
-	
+
 }
 
-int Vector::operator[](const int n) const{
+value Vector::operator[](const int n) const {
 	return this->coordinates[n];
 }
 
-int& Vector::operator[](const int n) {
+value& Vector::operator[](const int n) {
 	return this->coordinates[n];
 }
 
-std::ostream& operator << (std::ostream& os, const Vector& v){
+std::ostream& operator << (std::ostream& os, const Vector& v) {
 	os << "{";
-	for(int i=0; i<NDIM-1; i++){
+	for (int i = 0; i < NDIM - 1; i++) {
 		os << v[i] << ", ";
 	}
-	os << v[NDIM-1] << "}";
+	os << v[NDIM - 1] << "}";
 	return os;
 }
