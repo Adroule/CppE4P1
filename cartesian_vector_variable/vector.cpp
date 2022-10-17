@@ -9,7 +9,7 @@ Vector::Vector(std::initializer_list<int> pCoordinates) : coordinates{ std::make
 
 Vector::Vector(const size_t N) : coordinates{ std::make_unique<int[]>(N) }, taille{ N } {
 	for (int i = 0; i < N; i++) {
-		this->coordinates[i] = 0;
+		this->coordinates[i] = value(0);
 	}
 }
 
@@ -156,5 +156,3 @@ std::ostream& operator << (std::ostream& os, const Vector& v) {
 	os << v[v.size() - 1] << "}";
 	return os;
 }
-
-
