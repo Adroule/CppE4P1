@@ -3,6 +3,10 @@
 
 
 Vector::Vector(std::initializer_list<value> pCoordinates) {
+	if (pCoordinates.size() != NDIM)
+	{
+		std::runtime_error("Wrong size");
+	}
 	for (int i = 0; i < NDIM; i++) {
 		this->coordinates[i] = std::data(pCoordinates)[i];
 	}
