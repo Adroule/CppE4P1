@@ -1,13 +1,13 @@
 #include "vector.hh"
 
 
-Vector::Vector(std::initializer_list<int> pCoordinates) : coordinates{ std::make_unique<int[]>(pCoordinates.size()) }, taille{ pCoordinates.size() } {
+Vector::Vector(std::initializer_list<value> pCoordinates) : coordinates{ std::make_unique<value[]>(pCoordinates.size()) }, taille{ pCoordinates.size() } {
 	for (int i = 0; i < pCoordinates.size(); i++) {
 		this->coordinates[i] = std::data(pCoordinates)[i];
 	}
 }
 
-Vector::Vector(const size_t N) : coordinates{ std::make_unique<int[]>(N) }, taille{ N } {
+Vector::Vector(const size_t N) : coordinates{ std::make_unique<value[]>(N) }, taille{ N } {
 	for (int i = 0; i < N; i++) {
 		this->coordinates[i] = value(0);
 	}
@@ -15,7 +15,7 @@ Vector::Vector(const size_t N) : coordinates{ std::make_unique<int[]>(N) }, tail
 
 Vector::Vector(const Vector& v) {
 	this->taille = v.size();
-	this->coordinates = std::make_unique<int[]>(this->taille);
+	this->coordinates = std::make_unique<value[]>(this->taille);
 	for (int i = 0; i < v.size(); i++) {
 		this->coordinates[i] = v[i];
 	}
@@ -27,7 +27,7 @@ size_t Vector::size() const {
 
 Vector& Vector::operator=(const Vector& v1) {
 	this->taille = v1.size();
-	this->coordinates = std::make_unique<int[]>(this->taille);
+	this->coordinates = std::make_unique<value[]>(this->taille);
 	for (int i = 0; i < this->taille; i++) {
 		this->coordinates[i] = v1.coordinates[i];
 	}
@@ -121,7 +121,7 @@ Vector Vector::operator*(value n) const {
 value Vector::operator*(const Vector& rhs) const {
 	if (rhs.size() != this->size())
 		throw std::runtime_error("Incompatible size");
-	int sum = 0;
+	value sum = 0;
 	for (int i = 0; i < this->taille; i++) {
 		sum += this->coordinates[i] * rhs.coordinates[i];
 	}

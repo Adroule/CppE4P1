@@ -44,7 +44,7 @@ public:
 private:
     // Private Member functions here (if necessary)
     size_t taille;
-    std::unique_ptr<int[]> coordinates;
+    std::unique_ptr<value[]> coordinates;
     // Member variables are ALWAYS private, and they go here
 };
 
