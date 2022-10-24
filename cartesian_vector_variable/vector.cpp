@@ -132,7 +132,7 @@ value Vector::operator*(const Vector& rhs) const {
 Vector Vector::operator/(const value v) const {
 	Vector v3 = Vector(this->taille);
 	for (int i = 0; i < this->taille; i++) {
-		v3.coordinates[i] = this->coordinates[i]/v;
+		v3.coordinates[i] = this->coordinates[i] / v;
 	}
 	return v3;
 }
@@ -150,7 +150,7 @@ value& Vector::operator[](size_t n) {
 
 std::ostream& operator << (std::ostream& os, const Vector& v) {
 	os << "{";
-	for (int i = 0; i < v.size()-1; i++) {
+	for (int i = 0; i < v.size() - 1; i++) {
 		os << v[i] << ", ";
 	}
 	os << v[v.size() - 1] << "}";
